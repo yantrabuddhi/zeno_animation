@@ -112,8 +112,11 @@ class TimelineAnimation:
                     if (prev_angle<7.0):
                         vel=(mtr_pos-prev_angle)/secs_per_frame
                     prev_angle=mtr_pos
-                    if vel<0.01:#minimum speed in rad/sec
-                        vel=0.01
+                    if abs(vel)<0.01:#minimum speed in rad/sec
+                        if vel<0:
+                            vel=-0.01
+                        else:
+                            vel=0.01
                     pos_arr.velocities.append(vel)#we may omit velocity
                     if self.debug_only: print("\n motor:%s : pos:%f,speed:%f",joint_name,mtr,vel)
                 traj.points.append(pos_arr)
