@@ -6,7 +6,7 @@ import yaml
 #run script from blender
 
 
-## import actionlib
+#import actionlib
 
 from trajectory_msgs.msg import JointTrajectory
 from trajectory_msgs.msg import JointTrajectoryPoint
@@ -69,61 +69,66 @@ class TimelineAnimation:
         for joint_group in self.motors:
             joint_info={}#dictionary of joints
             for joint in joint_group['Joint']:
-                joint_info[joint['JointName']]=(joint,[])#tuple of joint data
+                joint_info[joint['JointName']]=(joint,[],[])#tuple of joint data
             self.motor_category[joint_group['JointGroupName']]=joint_info#dictionary of joints
 
 
-    def read_all_motors_curr_frame(self):
+    def read_all_motors_curr_frame(self,x,spf):
         for cat in self.motor_category:
             jDict=self.motor_category[cat]
             for joint_name in jDict:
                 joint_tuple=jDict[joint_name]
                 joint_info=joint_tuple[0]
                 joint_arr=joint_tuple[1]
+                joint_vel_arr=joint_tuple[2]
                 #apply scale and translation
-                joint_arr.append(utils.get_bones_rotation_rad(joint_info['Armature'],joint_info['Bone'],joint_info['Axis']))
+                joint_pos=utils.get_bones_rotation_rad(joint_info['Armature'],joint_info['Bone'],joint_info['Axis'])
+                joint_pos=joint_pos*float(joint_info['AngleScale'])+float(joint_info['AngleAdd'])
+                joint_arr.append(joint_pos)
+                if x==0:
+                    joint_vel_arr.append(0.0)
+                else:
+                    joint_vel_arr.append((joint_pos-joint_arr[x-1])/spf)
 
     def animate_bl(self, frame_start,frame_stop,secs):
         secs_per_frame=secs/float(abs(frame_stop-frame_start))
         self.create_new_structure()
         #loop through animations
+        count=0
         for x in range (frame_start,frame_stop):
             bpy.context.scene.frame_set(frame=x)
-            self.read_all_motors_curr_frame()
+            self.read_all_motors_curr_frame(count,secs_per_frame)
+            count=count+1
 
         all_cat_traj=[]
-        #client={}
         #joint_category is same as joint controller
         for cat in self.motor_category:
             jDict=self.motor_category[cat]
             traj=JointTrajectory()
             for joint_name in jDict:
-                joint_tuple=jDict[joint_name]
                 traj.joint_names.append(joint_name)
+
+            count=0
+            for x in range(frame_start,frame_stop):
                 pos_arr=JointTrajectoryPoint()
                 pos_arr.time_from_start=secs
-                prev_angle=100.0
-                joint_info=joint_tuple[0]
-                joint_arr=joint_tuple[1]
-                for mtr in joint_arr:
-                    mtr_pos=mtr*float(joint_info['AngleScale'])+float(joint_info['AngleAdd'])
-                    pos_arr.positions.append(mtr_pos)
-                    vel=3.142#rad/sec .. initialize to fastest speed
-                    if (prev_angle<7.0):
-                        vel=(mtr_pos-prev_angle)/secs_per_frame
-                    prev_angle=mtr_pos
-                    if abs(vel)<0.01:#minimum speed in rad/sec
-                        if vel<0:
-                            vel=-0.01
-                        else:
-                            vel=0.01
-                    pos_arr.velocities.append(vel)#we may omit velocity
-                    if self.debug_only: print("\n motor:%s : pos:%f,speed:%f",joint_name,mtr,vel)
+
+                for joint_name in jDict:
+                    joint_tuple=jDict[joint_name]
+                    #joint_info=joint_tuple[0]
+                    joint_arr=joint_tuple[1]
+                    joint_vel_arr=joint_tuple[2]
+                    pos_arr.positions.append(joint_arr[count])
+                    pos_arr.velocities.append(joint_vel_arr[count])
+                    if self.debug_only:print("Frame:",x," Joint:",joint_name," angle:",joint_arr[count]," velocity:",joint_vel_arr[count])
+
                 traj.points.append(pos_arr)
+                count=count+1
+
             all_cat_traj.append((cat,traj))
         #send trajectory for the category
         if self.debug_only: return
-        #self.send_trajectories(all_cat_traj)
+        self.send_trajectories(all_cat_traj)
 
     # def send_trajectories(self, all_trajectories):
     #     """
