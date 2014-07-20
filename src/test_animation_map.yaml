@@ -1,0 +1,16 @@
+ - name: init
+   frame_start: 1
+   frame_stop: 48
+   min_secs: 2.0
+ - name: anim_1
+   frame_start: 48
+   frame_stop: 72
+   min_secs: 3.0
+ - name: anim_2
+   frame_start: 60
+   frame_stop: 100
+   min_secs: 2.0
+ - name: anim_3
+   frame_start: 90
+   frame_stop: 120
+   min_secs: 2.0

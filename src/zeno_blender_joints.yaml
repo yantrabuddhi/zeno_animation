@@ -1,0 +1,86 @@
+ - JointGroupName: left_leg_controller
+   Joint:
+     -  JointName: l_hip_yaw_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: l_hip_roll_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: l_hip_pitch_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: l_knee_pitch_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: l_ankle_pitch_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: l_ankle_roll_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+ - JointGroupName: right_leg_controller
+   Joint:
+     -  JointName: r_hip_yaw_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: r_hip_roll_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: r_hip_pitch_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: r_knee_pitch_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: r_ankle_pitch_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+     -  JointName: r_ankle_roll_controller
+        Armature: Armature
+        Bone:
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0

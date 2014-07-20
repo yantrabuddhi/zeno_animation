@@ -1,0 +1,18 @@
+ - JointGroupName: TestL
+   Joint:
+     -  JointName: l_test
+        Armature: Armature
+        Bone: Bone1
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+
+ - JointGroupName: TestR
+   Joint:
+     -  JointName: r_test
+        Armature: Armature
+        Bone: Bone2
+        Axis: x
+        AngleScale: 1.0
+        AngleAdd: 0.0
+

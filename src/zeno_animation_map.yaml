@@ -1,0 +1,16 @@
+ - name: stand_init
+   frame_start: 1
+   frame_stop: 24
+   min_secs: 1.0
+ - name: move_1_step_forward_from_stand
+   frame_start: 24
+   frame_stop: 72
+   min_secs: 2.0
+ - name: move_1_step_forward
+   frame_start: 23
+   frame_stop: 74
+   min_secs: 2.0
+ - name: move_1_step_forward_to_stand
+   frame_start: 74
+   frame_stop: 98
+   min_secs: 1.0
