@@ -13,7 +13,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from control_msgs.msg import FollowJointTrajectoryAction
 from control_msgs.msg import FollowJointTrajectoryActionGoal
 
-from robo_blender.srv import *
+from zeno_animation.srv import *
 
 from mathutils import Matrix
 
